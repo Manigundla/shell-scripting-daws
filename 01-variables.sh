@@ -1,7 +1,7 @@
 #!/bin/bash
 
-p1=mani
-p2=pavan
+p1=$1
+p2=$1
 
     echo "$p2,how are you $pl"
     echo "$p1,Im, im good $p2"
@@ -15,6 +15,6 @@ p2=pavan
 
 #!/bin/bash
 
-DATE=(date)
+DATE=$(date)
 
     echo "todays date is :- $DATE"
