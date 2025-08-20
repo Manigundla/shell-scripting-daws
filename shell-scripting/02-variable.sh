@@ -7,4 +7,4 @@ p2=pavan
     echo "$p2: Hello my name is $p2, nice to meet you!"
     echo "$p1: how are you doing you $p2?"
     echo "$p2: Im good $p1. how are you doing?"
-    echo "$p1: Im doing good $p2. thank you."
+    echo "$p1: Im doing good $p2. Thank you for asking."
