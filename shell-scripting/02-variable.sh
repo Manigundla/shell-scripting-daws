@@ -1,7 +1,7 @@
 #!/bin/bash
 
-p1=mani
-p2=pavan
+p1=manikumar
+p2=pavankumar
 
     echo "$p1: Hello, my name is $p1"
     echo "$p2: Hello my name is $p2, nice to meet you!"
