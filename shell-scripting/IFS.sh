@@ -13,4 +13,10 @@ else
     echo -e "$G source direcrtory is avaliable:- $Source_dir"
 fi
 
+while IFS=":" read -r username passwd userid groupid userfullname home_dir shell_path
+do 
+    echo "username: $username"
+    echo "userID: $user_id"
+    echo "Group: $group_id"
+done < $Source_dir
 
