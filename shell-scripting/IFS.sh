@@ -11,9 +11,4 @@ then
     echo -e "$R source directory :- $Source_dir does'nt exist"
 fi
 
-while IFS=":" read -r username passwd userID groupID
-do 
-    echo "username: $username"
-    echo "userID: $userID"
-    echo "Group: $gropID"
-done <<< $Source_dir
+
