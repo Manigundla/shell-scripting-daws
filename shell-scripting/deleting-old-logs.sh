@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Source_dir="/tmp/shell_script.log"
+Source_dir="/tmp/shellscript.log"
 
 if [ ! -d $Source_dir ]
 then
