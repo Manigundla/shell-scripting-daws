@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Source_dir=/home/centos/passwd
+Source_dir=/home/centos
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
