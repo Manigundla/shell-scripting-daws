@@ -13,7 +13,7 @@ else
     echo -e "$G source direcrtory is avaliable:- $Source_dir"
 fi
 
-while IFS=":" read -r username passwd userid groupid userfullname home_dir shell_path
+while IFS=":" read -r username passwd user_id group_id userfullname home_dir shell_path
 do 
     echo "username: $username"
     echo "userID: $user_id"
