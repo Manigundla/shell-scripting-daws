@@ -13,5 +13,7 @@ fi
 
 while IFS=: read -r username passwd userID groupID
 do 
-    echo "username:$username userID:$userID Group:$gropID"
-done
+    echo "username:$username"
+    echo "userID:$userID"
+    echo "Group:$gropID"
+done <<< $Source_dir
