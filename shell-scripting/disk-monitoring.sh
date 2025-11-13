@@ -10,9 +10,9 @@ do
     partition=$(echo $line | awk '{print $1F}')
         if [ $usage -ge $DISK_THRESHOLD ]
         then 
-        message+="High disk usage on $partition : $DISK_USAGE"
+        message+="High disk usage on $partition : $DISK_USAGE\n"
         fi
 
 done <<< $DISK_USAGE
 
-echo "message:-$message"
+echo -e "message:-$message"
