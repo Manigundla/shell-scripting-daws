@@ -5,9 +5,9 @@ ALERT_TYPE=$2
 BODY=$3
 TO_ADDRESS=$4
 SUBJECT=$5
-ESCAPED_KEYWORD=$(printf '%s\n' "$BODY" | sed -e 's/[]\/$*.^[]/\\&/g');
+ESCAPED_BODY=$(printf '%s\n' "$BODY" | sed -e 's/[]\/$*.^[]/\\&/g');
 
-FINAL_BODY=$(sed -e "s/TO_TEAM/$TO_TEAM/g" -e "s/ALERT_TYPE/$ALERT_TYPE/g" -e "s/BODY/$ESCAPED_BODY/g" templet.html)
+FINAL_BODY=$(sed -e "s/TO_Team/$TO_TEAM/g" -e "s/ALERT_TYPE/$ALERT_TYPE/g" -e "s/BODY/$ESCAPED_BODY/g" templet.html)
 #FINAL_BODY=$(sed \
   #-e "s|TO_TEAM|$TO_TEAM|g" \
   #-e "s|ALERT_TYPE|$ALERT_TYPE|g" \
