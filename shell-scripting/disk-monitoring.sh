@@ -10,7 +10,7 @@ do
     partition=$(echo $line | awk '{print $1F}')
         if [ $usage -ge $DISK_THRESHOLD ]
         then 
-            message+="High disk usage on $partition : $usage\n"
+            message+="High disk usage on $partition : $usage <br>" # in shell script new line character is /n, but when it comes to html <br is the new char>
         fi
 
 done <<< $DISK_USAGE
