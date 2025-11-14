@@ -8,4 +8,4 @@ SUBJECT=$5
 
 FINAL_BODY=$(sed -e 's/TO_TEAM/$TO_TEAM/g' 's/ALERT_TYPE/$ALERT_TYPE/g' 's/BODY/$BODY/g' templet.html)
 
-echo "$FINAL_BODY" | mail -s "$SUBJECT" "$TO_ADDRESS"
+echo "$FINAL_BODY" | mail -s mail -s "$(echo -e "$SUBJECT\nContent-Type: text/html")" "$TO_ADDRESS"
