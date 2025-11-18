@@ -16,7 +16,7 @@ while getopts "n:w:h" opt;
 do
     case $opt in
         n) NAME="$OPTARG";; # -n option found, its argument is in $OPTARG
-        W) WISHES="$OPTARG";; # -w option found, its argument is in $OPTARG
+        w) WISHES="$OPTARG";; # -w option found, its argument is in $OPTARG
         h) USAGE; exit;; # -h option found (help flag)
         ?) USAGE; exit 1;; # Catches an invalid option (e.g., -x)
         :) USAGE; exit;; # Catches missing argument for n or w
