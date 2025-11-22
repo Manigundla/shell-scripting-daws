@@ -4,6 +4,8 @@ AMI="ami-0b4f379183e5706b9"
 SG_ID="sg-015037b20dbb8522f"
 INSTANCES=("MONGODB" "REDIS" "MYSQL" "RABBITMQ" "CATALOGUE" "USER" "CART" "SHIPPING" 
 "PAYMENT" "DISPATCH" "WEB")
+ZONE_ID="Z05485001W8WH1XFM7U3Q"
+DOMAIN_NAME="chainverse.online"
 
 for i in "${INSTANCES[@]}" 
 do 
@@ -15,10 +17,30 @@ do
         INSTANCE_TYPE="t2.micro"
     fi
 
-    aws ec2 run-instances --image-id $AMI \
+    IP_ADDRESS=$(aws ec2 run-instances --image-id $AMI \
     --instance-type $INSTANCE_TYPE \
     --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
-    --no-cli-pager
+    --no-cli-pager  \
+    --query 'Instances[0].PrivateIpAddress' --output text)
+
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+  {
+    "Comment": "Creating a record set for cognito endpoint"
+    ,"Changes": [{
+      "Action"              : "CREATE"
+      ,"ResourceRecordSet"  : {
+        "Name"              : "'$i'.'$DOMAIN_NAME'"
+        ,"Type"             : "A"
+        ,"TTL"              : 1
+        ,"ResourceRecords"  : [{
+            "Value"         : "'$IP_ADDRESS'"
+        }]
+      }
+    }]
+  }
+  '
 done
 
