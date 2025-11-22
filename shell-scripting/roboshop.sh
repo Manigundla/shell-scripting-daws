@@ -8,15 +8,17 @@ INSTANCES=("MONGODB" "REDIS" "MYSQL" "RABBITMQ" "CATALOGUE" "USER" "CART" "SHIPP
 for i in "${INSTANCES[@]}" 
 do 
     echo "Instance is: $i"
-    if [ $i == "MONGODB" ] || [ $i == "MYSQL" ] || [ $i == "SHIPPING" ]; then
+    if [ $i == "MONGODB" ] || [ $i == "MYSQL" ] || [ $i == "SHIPPING" ]
+    then
         INSTANCE_TYPE="t3.small"
     else
         INSTANCE_TYPE="t2.micro"
     fi
-    aws ec2 run-instances \
-    --image-id $AMI \
+
+    aws ec2 run-instances --image-id $AMI \
     --instance-type $INSTANCE_TYPE \
     --security-group-ids $SG_ID \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" 
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
+    --no-cli-pager
 done
 
