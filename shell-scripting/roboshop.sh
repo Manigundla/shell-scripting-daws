@@ -30,7 +30,7 @@ do
     --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
     --no-cli-pager  \
-    --query 'Instances[0].PrivateIpAddress' --output text)
+    --query "Instances[0].$IP_FIELD" --output text)
 
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
