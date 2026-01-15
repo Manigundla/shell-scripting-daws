@@ -17,12 +17,6 @@ do
     else
         INSTANCE_TYPE="t2.micro"
     fi
-        # Decide which IP to use for DNS: WEB = public, others = private
-    if [[ "$i" == "WEB" ]]; then
-        IP_FIELD="PublicIpAddress"
-    else
-        IP_FIELD="PrivateIpAddress"
-    fi
 
     IP_ADDRESS=$(aws ec2 run-instances \
     --image-id $AMI \
@@ -30,7 +24,8 @@ do
     --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
     --no-cli-pager  \
-    --query "Instances[0].PrivateIpAddress" --output text)
+    --query "Instances[0].PrivateIpAddress" \
+    --output text)
 
     echo "Created $i with $IP_FIELD: $RECORD_IP"
 
@@ -42,7 +37,7 @@ do
   {
     "Comment": "Creating a record set for cognito endpoint"
     ,"Changes": [{
-      "Action"              : "UPSERT"
+      "Action"              : "UPSERT" 
       ,"ResourceRecordSet"  : {
         "Name"              : "'$i'.'$DOMAIN_NAME'"
         ,"Type"             : "A"
