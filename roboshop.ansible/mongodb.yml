@@ -1,0 +1,26 @@
+---
+- name: setting up no sql database
+  hosts: mongodb
+  become: true
+  tasks:
+  - name: coping mongodb repo
+    ansible.builtin.copy:
+      src: mongodb.service
+      dest: /etc/yum.repos.d/mongo.repo
+  
+  - name: installing mongodb
+    ansible.builtin.package:
+      name: mongod-org
+      state: present
+    
+  - name: replacing configuration
+    ansible.builtin.replace:
+      path: /etc/mongod.conf
+      regexp: '127.0.0.1'
+      replace: '0.0.0.0'
+
+  - name: starting and enabling mongodb
+    ansible.builtin.service:
+      name: mongod-org
+      state: started
+      enabled: yes

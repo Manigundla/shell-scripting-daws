@@ -1,0 +1,78 @@
+---
+- name: installing and setting up catalogue
+  hosts: catalogue
+  become: true
+  tasks:
+  - name: Disabling default package
+    ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:18 -y
+  
+  - name: installing nodejs 18
+    ansible.builtin.package:
+      name: nodejs
+      state: present
+  
+  - name: creating roboshop user
+    ansible.builtin.user:
+      name: roboshop
+  
+  - name: creating directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+  
+  - name: downloading catalogue app
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
+
+  - name: unarchive the code
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes #we used this because catalogue is on target machine not on the control node, and this tells check on remote node.
+
+  - name: Installing dependencies
+    ansible.builtin.command: npm installing
+    args:
+      chdir: /app #we are using this to tell the control node to change directory and install 
+
+  - name: copy catalogue service
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: reloding & starting Daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+   # we should start the application only after loading the data, if not we may get error.
+
+  - name: copying mongodb.service
+    ansible.builtin.copy:
+      src: mongodb.service
+      dest: /etc/yum.repos.d/mongo.repo
+  
+  - name: Installing mongodb client
+    ansible.builtin.package:
+      - name: mongodb.org
+        state: present
+
+  - name: checking if data is already present
+    ansible.builtin.command: mongo --host mongodb.chainverse.online --quiet --eval 'db = db.getsiblingDB("catalogue"); db.products.count()'
+    register: product_count
+  # we are using this command because if we load data for the second time we will get errors saying duplication, inorder to avoid loading the dat which already exist.
+  - name: printing the product count
+    ansible.builtin.debug:
+      msg: "poduct_count {{product_count}}"
+  
+  - name: loading data in mongodb server
+    absible.builtin.command: mongo --host mongodb.chainverse.online < /app/schema/catalogue.js
+    when: product_count.stdout == 0
+
+  - name: start and enabling catalogue
+    ansible.builtin.service:
+      name: catalogue
+      state: restarted
+      enabled: true
+    
+
+    
